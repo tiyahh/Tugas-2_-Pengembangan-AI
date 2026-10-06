@@ -1,0 +1,116 @@
+{
+  "name": "Tugas 1 Pengembangan Agen AI",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Tiyah. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f1d5eec6-3134-4c00-9662-2f544a2735cd",
+      "name": "When chat message received",
+      "webhookId": "9f86480a-29d7-42a3-98e4-240f22c76bd5"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda bertindak sebagai Asisten Layanan Informasi Digital NF Academy yang bertugas menjawab pertanyaan pengunjung mengenai program, kurikulum, dan biaya pendidikan. Seluruh jawaban Wajib bersumber secara eksplisit dari basis pengetahuan situs resmi https://nfacademy.id sebagai satu-satunya rujukan utama.\n\nPanduan Komunikasi:\n\nGunakan Bahasa Indonesia yang ramah, komunikatif, dan persuasif.\n\nBatasi panjang respons maksimal 200 kata dan gunakan emoji secukupnya agar menarik.\n\nDilarang memberikan asumsi, perkiraan, atau informasi yang tidak tertulis pada situs resmi.\n\nApabila data yang ditanyakan pengguna tidak tersedia di situs https://nfacademy.id, sampaikan secara jujur bahwa informasi tersebut belum tersedia dan arahkan pengguna untuk menghubungi tim layanan kami via menu kontak di halaman utama website.\n\nDi akhir jawaban, tawarkan bantuan lanjutan dengan nada yang sopan."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        -16
+      ],
+      "id": "63ece896-6e30-4357-a7a2-bd5c8e397a3a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "4ec96c9b-2d77-4767-8e3a-f570534c4d2e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "WwonitIbzkVs7Z1W",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "46310755-bef3-40fd-9b18-1ea8be3857c8",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ad941505-c9cf-4ede-bb90-09131337c35b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "8UsKA2xB1Xopc1Ht",
+  "tags": []
+}
